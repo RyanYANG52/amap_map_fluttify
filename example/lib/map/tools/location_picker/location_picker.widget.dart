@@ -276,7 +276,9 @@ mixin _AnimationMixin on SingleTickerProviderStateMixin<LocationPicker> {
   void initState() {
     super.initState();
     _jumpController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(duration: Duration(milliseconds: 300));
+    // _jumpController =
+    //     AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _tween = Tween(begin: Offset(0, 0), end: Offset(0, -15)).animate(
         CurvedAnimation(parent: _jumpController, curve: Curves.easeInOut));
   }

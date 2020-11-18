@@ -587,6 +587,14 @@ class Marker {
     );
   }
 
+  /// 设置旋转角度
+  Future<void> setRotateAngle(double angle) async {
+    return platform(
+      android: (_) => androidModel.setRotateAngle(angle),
+      ios: (_) => iosController.set_rotationDegree(angle),
+    );
+  }
+
   /// 设置可见性
   Future<void> setVisible(bool visible) async {
     assert(visible != null);
@@ -682,6 +690,47 @@ class Polyline {
   com_amap_api_maps_model_Polyline androidModel;
   MAPolyline iosModel;
   MAMapView iosController;
+
+  Future<void> addPoint(LatLng point) {
+    return platform(
+      android: (_) async {
+        final latLng = await com_amap_api_maps_model_LatLng
+            .create__double__double(point.latitude, point.longitude);
+        final option = await androidModel.getOptions();
+        await option.add__com_amap_api_maps_model_LatLng(latLng);
+        await androidModel.setOptions(option);
+      },
+      ios: (_) async {},
+    );
+  }
+
+  Future<void> setPoints(List<LatLng> points) {
+    return platform(
+      android: (_) async {
+        // 构造折线点
+        var latLngList = List<com_amap_api_maps_model_LatLng>(points.length);
+        for (var i = 0; i < points.length; i++) {
+          final point = points[i];
+          final latLng = await com_amap_api_maps_model_LatLng
+              .create__double__double(point.latitude, point.longitude);
+          latLngList[i] = latLng;
+        }
+        await androidModel.setPoints(latLngList);
+      },
+      ios: (_) async {
+        // 构造折线点
+        var latLngList = List<CLLocationCoordinate2D>(points.length);
+        for (var i = 0; i < points.length; i++) {
+          final point = points[i];
+          final latLng = await CLLocationCoordinate2D.create(
+              point.latitude, point.longitude);
+          latLngList[i] = latLng;
+        }
+        await iosModel.setPolylineWithCoordinates_count(
+            latLngList, latLngList.length);
+      },
+    );
+  }
 
   Future<void> remove() {
     return platform(
