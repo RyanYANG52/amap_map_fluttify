@@ -12,11 +12,15 @@ dependencies:
   flutter:
     sdk: flutter
   amap_core_fluttify: ^0.12.0
-  amap_location_fluttify: ^0.18.0
+  # amap_location_fluttify: ^0.18.0
   amap_search_fluttify: ^0.14.0
   url_launcher: ^5.4.2
   foundation_fluttify: ^0.9.9
   core_location_fluttify: ^0.4.1
+  amap_location_fluttify:
+    git:
+      url: https://github.com/RyanYANG52/amap_location_fluttify.git
+      ref: dev0.18.0
 
 dev_dependencies:
   flutter_test:
